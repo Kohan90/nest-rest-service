@@ -10,12 +10,14 @@ export class JwtAuthGuard implements CanActivate {
     const request               = context.switchToHttp().getRequest();
     const authorization: string = request.headers['authorization'];
 
-    const jwt = authorization.replace('Bearer ', '');
+    if (authorization){
+      const jwt = authorization.replace('Bearer ', '');
 
-    if (verify(jwt, process.env.JWT_SECRET)) {
-      return true;
+      if (verify(jwt, process.env.JWT_SECRET)) {
+        return true;
+      }
     }
-
+    
     return false;
   }
 }
